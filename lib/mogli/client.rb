@@ -167,7 +167,11 @@ module Mogli
           # completely different data structure
           hash_or_array = JSON.parse(hash_or_array[1]['body'].first).values
       end
-      hash_or_array = map_to_class(hash_or_array,klass) if klass
+      if hash_or_array.is_a?(Hash) && hash_or_array['data']
+        hash_or_array = map_to_class(hash_or_array['data'],klass) if klass
+      else
+        hash_or_array = map_to_class(hash_or_array,klass) if klass
+      end
       hash_or_array
     end
 
